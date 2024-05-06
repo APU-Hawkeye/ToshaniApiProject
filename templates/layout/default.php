@@ -12,6 +12,7 @@
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
+ * @var string $titleForLayout
  */
 
 $cakeDescription = 'CakePHP: the rapid development php framework';
@@ -19,37 +20,69 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 <!DOCTYPE html>
 <html>
 <head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+    <!-- Meta -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="theme-color" content="#ffffff">
+    <?php echo $this->Html->css("dashforge"); ?>
+    <?php echo $this->Html->css("skin.cool"); ?>
+    <?php echo $this->Html->css("/lib/mdi/font/css/materialdesignicons.min"); ?>
+    <?php echo $this->Html->css("loader.min"); ?>
+    <?php echo $this->Html->css("dimmer.min"); ?>
+    <?php echo $this->fetch("css"); ?>
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <title><?php echo $titleForLayout; ?></title>
 </head>
-<body>
-    <nav class="top-nav">
-        <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
-        </div>
-        <div class="top-nav-links">
-            <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a>
-        </div>
-    </nav>
-    <main class="main">
-        <div class="container">
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
-        </div>
-    </main>
-    <footer>
-    </footer>
+<body class="df-roboto">
+<?php echo $this->element("sidebar"); ?>
+<div class="content ht-100v pd-0">
+    <?php echo $this->fetch("content"); ?>
+</div>
+<?php echo $this->Html->script([
+    "/lib/jquery/jquery.min",
+    "/lib/bootstrap/js/bootstrap.bundle.min",
+    "/lib/feather-icons/feather.min",
+    "/lib/perfect-scrollbar/perfect-scrollbar.min",
+    "dashforge",
+    "dashforge.aside",
+    "form-utility"
+]) ?>
+
+<?php echo $this->fetch("scriptBottom"); ?>
+<style>
+    .nav-aside .nav-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 0 ;
+        height: 40px;
+        color: rgba(27, 46, 75, 0.9);
+        transition: all 0.25s;
+    }
+    .aside-logo img{
+        max-height: 40px;
+        max-width: 125px;
+    }
+    .nav-aside .nav-item.active .nav-link {
+        color: #5cb85c;
+    }
+    .nav-aside .nav-item.active svg {
+        color: #5cb85c;
+    }
+    .page-item.active .page-link {
+        background-color: darkgray;
+    }
+    .page-item.active .page-link {
+        border-color: lightgrey;
+    }
+    .page-item .page-link {
+        border-color: lightgrey;
+    }
+</style>
 </body>
 </html>
