@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Service\API\Toshani;
 use Cake\Event\EventInterface;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class AgentController
@@ -48,7 +49,7 @@ class AgentController extends AppController
 
                 return $this->redirect([
                     'action' => 'validateOTP',
-                    $postData,
+                    (int)$postData,
                 ]);
             }
         }
@@ -84,7 +85,7 @@ class AgentController extends AppController
     }
 
     /**
-     * @return void
+     * @throws GuzzleException
      */
     public function addBeneficiary(int $mobileNumber)
     {
@@ -132,7 +133,7 @@ class AgentController extends AppController
     {
         $response = $this->object->beneficiaryList($mobileNumber);
         if ($response->result === 1) {
-            return $response->data;
+            return $response;
         } elseif ($response->result === 0) {
             $this->Flash->success($response->message);
         }
