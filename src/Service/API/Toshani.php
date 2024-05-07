@@ -51,7 +51,6 @@ class Toshani
      * @param int $mobileNumber mobile number
      * @param int $otp otp
      * @param string $name customer name
-     * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function validateOTP(int $mobileNumber, int $otp, string $name): string
@@ -71,12 +70,11 @@ class Toshani
             ],
         ]);
 
-        return $response->getBody()->getContents();
+        return json_decode($response->getBody()->getContents());
     }
 
     /**
      * @param int $mobileNumber mobile number
-     * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function beneficiaryList(int $mobileNumber)
@@ -94,9 +92,19 @@ class Toshani
             ],
         ]);
 
-        return $response->getBody()->getContents();
+        return json_decode($response->getBody()->getContents());
     }
 
+    /**
+     * @param int $mobileNumber
+     * @param string $name
+     * @param int $accountNumber
+     * @param string $bankCode
+     * @param string $ifscCode
+     * @param int $beneficiaryMobile
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function addBeneficiary(
         int $mobileNumber,
         string $name,
@@ -105,6 +113,23 @@ class Toshani
         string $ifscCode,
         int $beneficiaryMobile
     ) {
+        $endpoint = self::BASE_URI . '/imps_lite/verification_otp';
+        $body = [
+            'secret_key' => $this->_secretKey,
+            'name' => $mobileNumber,
+            'accountNumber' => $accountNumber,
+            'bankCode' => $bankCode,
+            'ifscCode' => $ifscCode,
+            'beneficiaryMobileNumber' => $beneficiaryMobile,
+        ];
+        $response = $this->_client->post($endpoint, [
+            'body' => json_encode($body),
+            'headers' => [
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+            ],
+        ]);
 
+        return json_decode($response->getBody()->getContents());
     }
 }
