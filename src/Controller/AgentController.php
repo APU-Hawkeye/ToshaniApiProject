@@ -32,7 +32,6 @@ class AgentController extends AppController
         if ($this->getRequest()->is('post')) {
             /** @var int $postData */
             $postData = $this->getRequest()->getData('mobile_number');
-            /** @var \GuzzleHttp\Psr7\Response $response */
             $response = $this->object->getCustomer((int)$postData);
             if ($response->result === 1) {
                 $this->Flash->success($response->message);
@@ -40,7 +39,7 @@ class AgentController extends AppController
                 return $this->redirect([
                     'controller' => 'Agent',
                     'action' => 'beneficiaryList',
-                    $postData
+                    $postData,
                 ]);
             } elseif ($response->result === 0) {
                 $this->Flash->error($response->message);
@@ -68,17 +67,16 @@ class AgentController extends AppController
             $otp = $this->getRequest()->getData('otp');
             /** @var string $name */
             $name = $this->getRequest()->getData('name');
-            /** @var \GuzzleHttp\Psr7\Response $response */
             $response = $this->object->validateOTP($mobileNumber, $otp, $name);
-            if ($response['result'] === 1) {
-                $this->Flash->success($response['message']);
+            if ($response->result === 1) {
+                $this->Flash->success($response->message);
 
                 return $this->redirect([
                     'action' => 'beneficiaryList',
                     $mobileNumber,
                 ]);
-            } elseif ($response['result'] === 0) {
-                $this->Flash->success($response['message']);
+            } elseif ($response->result === 0) {
+                $this->Flash->success($response->message);
             }
         }
         $this->set('mobile', $mobileNumber);
@@ -88,8 +86,42 @@ class AgentController extends AppController
     /**
      * @return void
      */
-    public function addBeneficiary()
+    public function addBeneficiary(int $mobileNumber)
     {
+        if ($this->getRequest()->is('post')) {
+            /** @var string $name */
+            $name = $this->getRequest()->getData('name');
+            /** @var int $accountNumber */
+            $accountNumber = $this->getRequest()->getData('account_number');
+            /** @var string $bankCode */
+            $bankCode = $this->getRequest()->getData('bank_code');
+            /** @var string $ifscCode */
+            $ifscCode = $this->getRequest()->getData('ifsc_code');
+            /** @var string $name */
+            $beneficiaryMobile = $this->getRequest()->getData('beneficiary_mobile');
+            $response = $this->object->addBeneficiary(
+                $mobileNumber,
+                $name,
+                $accountNumber,
+                $bankCode,
+                $ifscCode,
+                $beneficiaryMobile
+            );
+            if ($response->result === 1) {
+                $this->Flash->success($response->message);
+
+                return $this->redirect([
+                    'action' => 'beneficiaryList',
+                    $mobileNumber,
+                ]);
+            } elseif ($response->result === 0) {
+                $this->Flash->success($response->message);
+            } elseif ($response->result === "0") {
+                $this->Flash->success($response->message);
+            }
+        }
+        $this->set('mobile', $mobileNumber);
+        $this->set('titleForLayout', __('Add Beneficiary'));
     }
 
     /**
@@ -98,7 +130,6 @@ class AgentController extends AppController
      */
     public function beneficiaryList(int $mobileNumber)
     {
-        /** @var \GuzzleHttp\Psr7\Response $response */
         $response = $this->object->beneficiaryList($mobileNumber);
         if ($response->result === 1) {
             return $response->data;
