@@ -50,7 +50,7 @@ use Cake\Utility\Security;
  * See https://github.com/josegonzalez/php-dotenv for API details.
  *
  * Uncomment block of code below if you want to use `.env` file during development.
- * You should copy `config/.env.example` to `config/.env` and set/modify the
+ * You should copy `config/.env` to `config/.env` and set/modify the
  * variables as required.
  *
  * The purpose of the .env file is to emulate the presence of the environment
