@@ -40,7 +40,7 @@ class AgentController extends AppController
                 return $this->redirect([
                     'controller' => 'Agent',
                     'action' => 'beneficiaryList',
-                    $postData,
+                    (int)$postData,
                 ]);
             } elseif ($response->result === 0) {
                 $this->Flash->error($response->message);
@@ -70,7 +70,7 @@ class AgentController extends AppController
             $name = $this->getRequest()->getData('name');
             $response = $this->object->validateOTP($mobileNumber, $otp, $name);
             if ($response->result === 1) {
-                $this->Flash->success($response->message);
+                $this->Flash->success('');
 
                 return $this->redirect([
                     'action' => 'beneficiaryList',
