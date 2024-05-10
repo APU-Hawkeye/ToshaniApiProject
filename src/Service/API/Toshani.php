@@ -79,7 +79,7 @@ class Toshani
      */
     public function beneficiaryList(int $mobileNumber)
     {
-        $endpoint = self::BASE_URI . '/imps_lite/get_customer';
+        $endpoint = self::BASE_URI . '/imps_lite/beneficiary_list';
         $body = [
             'secret_key' => $this->_secretKey,
             'mobileNumber' => $mobileNumber,
@@ -113,10 +113,11 @@ class Toshani
         string $ifscCode,
         int $beneficiaryMobile
     ) {
-        $endpoint = self::BASE_URI . '/imps_lite/verification_otp';
+        $endpoint = self::BASE_URI . '/imps_lite/add_beneficiary';
         $body = [
             'secret_key' => $this->_secretKey,
-            'name' => $mobileNumber,
+            'mobileNumber' => $mobileNumber,
+            'name' => $name,
             'accountNumber' => $accountNumber,
             'bankCode' => $bankCode,
             'ifscCode' => $ifscCode,
